@@ -6,6 +6,26 @@
   <meta http_equiv="X-UA-Compatiable" content="IE-edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+
+  <!--importsmap이 지원이 안 되는 브라우저를 대비하여 es-module-shims load-->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.8.3/dist/es-module-shims.js"></script>
+  <!--node_modules안의 threejs 모듈 사용-->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./node_modules/three/build/three.module.js"
+      }
+    }
+  </script>
+  <!--cdn에서 가져온 threejs 모듈 사용-->
+  <!-- <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.152.2/examples/jsm/"
+      }
+    }
+  </script> -->
 </head>
 
 <body>
