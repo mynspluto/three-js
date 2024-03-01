@@ -10,7 +10,7 @@ scene.background = new THREE.Color(0xffe287);
 // 2. Camera Scene을 바라볼 시점을 결정
 const camera = new THREE.PerspectiveCamera(
   50,
-  $result.clientWidth / $result.clientHeight,
+  window.innerWidth / window.innerHeight,
   0.1,
   1000
 );
@@ -19,11 +19,11 @@ camera.lookAt(0, 0, 0);
 
 // 3. Renderer Scene+Camera 화면을 그려주는 역할
 const renderer = new THREE.WebGLRenderer({
-  canvas: $result,
-  antialias: true,
+  //canvas: $result,
+  //antialias: true,
 });
-renderer.setSize($result.clientWidth, $result.clientHeight);
-// document.body.appendChild(renderer.domElement);
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
 const light = new THREE.DirectionalLight(0xffffff);
 light.position.set(2, 4, 3);
@@ -37,3 +37,18 @@ const box = new THREE.Mesh(geometry, material);
 scene.add(box);
 
 renderer.render(scene, camera);
+
+function animate() {
+  box.rotation.y += 0.01;
+  console.log(box.rotation.y);
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+//animate();
+window.addEventListener("resize", () => {
+  // 1. 카메라의 종횡비
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
