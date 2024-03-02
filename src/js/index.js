@@ -1,13 +1,8 @@
 import * as THREE from "three";
 
-const $result = document.getElementById("result");
-
-// 1. Scene 화면에서 보여주려는 객체를 담는 공간
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xffe287);
-//scene.add(요소)
 
-// 2. Camera Scene을 바라볼 시점을 결정
 const camera = new THREE.PerspectiveCamera(
   50,
   window.innerWidth / window.innerHeight,
@@ -17,11 +12,7 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(2, 2, 2);
 camera.lookAt(0, 0, 0);
 
-// 3. Renderer Scene+Camera 화면을 그려주는 역할
-const renderer = new THREE.WebGLRenderer({
-  //canvas: $result,
-  //antialias: true,
-});
+const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -29,44 +20,30 @@ const light = new THREE.DirectionalLight(0xffffff);
 light.position.set(2, 4, 3);
 scene.add(light);
 
-const material = new THREE.MeshStandardMaterial({
+const geometry = new THREE.BoxGeometry(1, 1, 1);
+const basic = new THREE.MeshBasicMaterial({
   color: 0x2e6ff2,
 });
 
-// 육면체
-const geo1 = new THREE.BoxGeometry(1, 1, 1);
-const obj1 = new THREE.Mesh(geo1, material);
-//scene.add(obj1);
+const standard = new THREE.MeshStandardMaterial({
+  color: 0xffaaaa,
+  roughness: 0.2,
+  metalness: 0.8,
+  side: THREE.DoubleSide,
+});
+const physical = new THREE.MeshPhysicalMaterial({
+  color: 0xffaaaa,
+});
+const phong = new THREE.MeshPhongMaterial({
+  color: 0xffaaaa,
+  shininess: 30,
+  specular: 0x2e6ff2,
+});
+const mesh = new THREE.Mesh(geometry, phong);
+scene.add(mesh);
 
-// 원뿔
-const geo2 = new THREE.ConeGeometry(0.5, 1, 32);
-const obj2 = new THREE.Mesh(geo2, material);
-//scene.add(obj2);
-
-// 원기둥
-const geo3 = new THREE.CylinderGeometry(0.5, 0.8, 1, 8);
-const obj3 = new THREE.Mesh(geo3, material);
-//scene.add(obj3);
-
-// 구
-const geo4 = new THREE.SphereGeometry(1);
-const obj4 = new THREE.Mesh(geo4, material);
-//scene.add(obj4);
-
-// 평면
-const geo5 = new THREE.PlaneGeometry(1, 2);
-const obj5 = new THREE.Mesh(geo5, material);
-//scene.add(obj5);
-
-// 원
-const geo6 = new THREE.CircleGeometry(1, 32);
-const obj6 = new THREE.Mesh(geo6, material);
-//scene.add(obj6);
-
-// 튜브
-const geo7 = new THREE.TorusGeometry(1, 0.3);
-const obj7 = new THREE.Mesh(geo7, material);
-scene.add(obj7);
+//const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), standard);
+//scene.add(plane);
 
 renderer.render(scene, camera);
 
