@@ -9,7 +9,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(2, 2, 2);
+camera.position.set(5, 5, 5);
 camera.lookAt(0, 0, 0);
 
 const renderer = new THREE.WebGLRenderer();
@@ -20,30 +20,28 @@ const light = new THREE.DirectionalLight(0xffffff);
 light.position.set(2, 4, 3);
 scene.add(light);
 
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const basic = new THREE.MeshBasicMaterial({
-  color: 0x2e6ff2,
-});
-
-const standard = new THREE.MeshStandardMaterial({
-  color: 0xffaaaa,
-  roughness: 0.2,
-  metalness: 0.8,
-  side: THREE.DoubleSide,
-});
-const physical = new THREE.MeshPhysicalMaterial({
+const geometry = new THREE.DodecahedronGeometry(1);
+const material = new THREE.MeshStandardMaterial({
   color: 0xffaaaa,
 });
-const phong = new THREE.MeshPhongMaterial({
-  color: 0xffaaaa,
-  shininess: 30,
-  specular: 0x2e6ff2,
-});
-const mesh = new THREE.Mesh(geometry, phong);
+const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
-//const plane = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), standard);
-//scene.add(plane);
+// 1. 위치
+mesh.position.x = 2;
+mesh.position.y = 1;
+mesh.position.set(0, 2, 1);
+
+// 2. 회전
+mesh.rotation.y = 360;
+mesh.rotation.y = THREE.MathUtils.degToRad(360);
+
+// 3. 크기
+mesh.scale.x = 1.2;
+mesh.scale.z = 0.8;
+
+const axesHelper = new THREE.AxesHelper(10);
+scene.add(axesHelper);
 
 renderer.render(scene, camera);
 
